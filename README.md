@@ -103,14 +103,9 @@ Download the project zip file to you computer and unzip the file then place insi
 			when '200 OK'  then 0 else 1 end)/count(log.status),3) as error
 			from log group
 			by date(time) order by error desc;
-	
-  
-   12. Load the data in local database using the command:
-   ```
-     $ psql -d news -f views1.sql
-   ```
+
    
-   13. Run logAnalysis.py using:
+   12. Run logAnalysis.py using:
    ```
      $ python logAnalysis.py
    ```
