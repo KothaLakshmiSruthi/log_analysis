@@ -115,4 +115,6 @@ Download the project zip file to you computer and unzip the file then place insi
      $ python logAnalysis.py
    ```
   
-  Note: queries will take sometime to execute 
+  Note: queries will take sometime to execute
+  
+![log_output.jpg](https://github.com/KothaLakshmiSruthi/log_analysis/blob/master/log_output.jpg)
