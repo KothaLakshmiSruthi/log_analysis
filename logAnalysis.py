@@ -1,24 +1,17 @@
+
 #!/usr/bin/env python
 import psycopg2
 DB_NAME = "news"
 
 
 # 1. query for Most popular three articles of all time are?
-qrr1 = ''' SELECT title, views FROM articleswhoarepopular INNER JOIN articles ON
-    articles.slug = articleswhoarepopular.slug ORDER BY views desc LIMIT 3; '''
+qrr1 = ''' SELECT * from articleswhicharepopular limit 3;'''
 
 # 2. query for Most popular article authors of all time are?
-qrr2 = '''
-    SELECT auth.name, count(l.id) as count
-    FROM articles arti JOIN log l ON l.path = concat('/article/', arti.slug)
-    JOIN authors auth
-    ON auth.id = arti.author
-    GROUP BY auth.name
-    ORDER BY count DESC
-    LIMIT 4;'''
+qrr2 = '''SELECT * from authorswhoarepopular LIMIT 4;'''
 
-# 3. query for Days on which more than 1% of requests lead to errors?
-qrr3 = '''  select * from fail where error > 1; '''
+# 3. query for Day on which more than 1% of requests lead to errors?
+qrr3 = '''select * from fault where fallacy=(select max(fallacy) from fault);'''
 
 # connecting the database
 
@@ -28,8 +21,8 @@ def connection(db_name):
         cun = psycopg2.connect(database=DB_NAME)
         cll = cun.cursor()
         return cun, cll
-    except Exception as error:
-        print(error)
+    except Exception as e:
+        raise e
 # executing the required queries
 
 
@@ -77,8 +70,7 @@ def print_qrr_res2(qrr_res):
 
 print_qrr_res2(qrr_res)
 
-req_3 = """\n3. Days with more than 1% of request that
-lead to an error:\n"""
+req_3 = """\n3. Days with more than 1% of request that lead to an error:\n"""
 print(req_3)
 
 
