@@ -1,17 +1,7 @@
-
 #!/usr/bin/env python
 import psycopg2
 DB_NAME = "news"
 
-
-# 1. query for Most popular three articles of all time are?
-qrr1 = ''' SELECT * from articleswhicharepopular limit 3;'''
-
-# 2. query for Most popular article authors of all time are?
-qrr2 = '''SELECT * from authorswhoarepopular LIMIT 4;'''
-
-# 3. query for Day on which more than 1% of requests lead to errors?
-qrr3 = '''select * from fault where fallacy=(select max(fallacy) from fault);'''
 
 # connecting the database
 
@@ -41,12 +31,17 @@ print(req_1)
 
 
 def print_qrr_res(qrr_res):
-    if(qrr1):
+    # 1. query for Most popular three articles of all time are?
+    qrr1 = ''' SELECT * from articleswhicharepopular limit 3;'''
+    try:
         res1 = qrr_res(qrr1)
-        for res in res1:
-            print ('\t' + str(res[0]) + ' ---> ' + str(res[1]) + ' views')
-    else:
-        print('this is not my first query')
+        if(qrr1):
+            for res in res1:
+                print ('\t' + str(res[0]) + ' ---> ' + str(res[1]) + ' views')
+        else:
+            print('this is not my first query')
+    except Exception as e:
+        raise e
 
 if __name__ == "__main__":
     print_qrr_res(qrr_res)
@@ -56,6 +51,8 @@ print(req_2)
 
 
 def print_qrr_res2(qrr_res):
+    # 2. query for Most popular article authors of all time are?
+    qrr2 = '''SELECT * from authorswhoarepopular LIMIT 4;'''
     try:
         res2 = qrr_res(qrr2)
         if (res2):
@@ -75,12 +72,21 @@ print(req_3)
 
 
 def print_qrr_res3(qrr_res):
-    if(qrr3):
+    # 3. query for Day on which more than 1% of requests lead to errors?
+    qrr3 = '''select * from fault where fallacy=(
+                                                 select max(fallacy)
+                                                 from fault);'''
+    try:
         res3 = qrr_res(qrr3)
-        for res in res3:
-            print ('\t' + str(res3[0][0]) + ' ---> ' + str(res3[0][1]) + ' % ')
-    else:
-        print('this is not my error query')
+        if(qrr3):
+            for res in res3:
+                print ('\t' + str(res3[0][0]) + ' ---> ' + str(res3[0][1]) +
+                       ' % ')
+        else:
+            print('this is not my error query')
+    except Exception as e:
+        raise e
 
 if __name__ == "__main__":
     print_qrr_res3(qrr_res)
+
