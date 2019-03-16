@@ -1,32 +1,37 @@
 # Project 3: Logs Analysis Project
-### by KOTHA LAKSHMI SRUTHI
+# by KOTHA LAKSHMI SRUTHI
 
-Logs Analysis Project, part of the Udacity [Full Stack Web Developer
-Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004).
 
-## What it is and does
+## About the logAnalysis project
 
 A Reporting page that prints out reports in a plain text format based on the data in the database.This reporting tool is a python program using the `psycopg2` module to connect to the database.
 
-## Project content
+# Questions used to be solved while working on logAnalysis project
+
+* query for Most popular three articles of all time are?
+* query for Most popular article authors of all time are?
+* query for Day on which more than 1% of requests lead to errors?
+
+## items which are included in my folder logAnalysis
 
 This project consists for the following files are:
 
 * logAnalysis.py - main file to run this Logs Analysis Reporting tool
-* README.md - instructions to install this reporting tool
-* newsdata.sql - database file
-* log_output.JPG
+* README.md - instructions to install this some tools which are required
+* newsdata.sql - database file which contains some tables
+		Tables:
+			articles
+			authors
+			log
+* log_output.JPG - my sample output is involved
+* views1.sql - views which are created to solve the required questions
 
-## Required Tools
+## Tools which are required to perform logAnalysis project
 
 1. Python
 2. Vagrant
 3. VirtualBox
 4. postgresql
-
-## Installation
-
-There are some dependancies and a few instructions on how to run the application.
 
 ## Dependencies
 
@@ -42,42 +47,49 @@ There are some dependancies and a few instructions on how to run the application
 4. Log into Vagrant VM (`vagrant ssh`)
 5. Navigate to `cd /vagrant` as instructed in terminal
 
-## How to Run Project
-
-Download the project zip file to you computer and unzip the file then place inside `vagrant/logs-analysis`.
+## Steps to run the logAnalysis project
+	
+	Windows users will need commant prompt to execute the program
 
   1. Launch the Vagrant VM inside Vagrant sub-directory in the downloaded fullstack-nanodegree-vm repository using command:
   
   ```
     $ vagrant up
   ```
+  
+  
   2. Then Log into this using command:
   
   ```
     $ vagrant ssh
   ```
-  3. download database from [here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip).
+  
+  3. download newsdata.sql
 
   4. Unzip this file after downloading it. The file inside is called newsdata.sql.
 
-  5. Copy the newsdata.sql file and place inside `vagrant/logAnalysisProject
+  5. Copy the newsdata.sql file and place inside `vagrant/logAnalysis
   
-  6. connect to vagrant:
+  6. Change the directory by entering
+  
   ```
 	$ cd vagrant
   ```
   
-   7. connect to postgresql in vagrant:
+   7. connect to postgres in vagrant:
+   
    ```
-	 $ sudo su - postgresql
+	 $ sudo su - postgres
    ```
    
    8. change/connect to postgres:
+   
    ```
 	 $ psql
    ```
    
    9. come out from postgres
+   
    ```
 	 $ \q 
 	 $ logout
@@ -90,26 +102,18 @@ Download the project zip file to you computer and unzip the file then place insi
    ```
   
    11. creating views to perform queries
-  
-   views required:
-		
-		view1:(``` view for most popular articles ```)
-			CREATE VIEW articleswhoarepopular as SELECT replace(path,'/article/','') as slug, count(*) as views
-			FROM log
-			WHERE path<>'/' AND status ='200 OK' GROUP BY path;
-			
-		view2:(``` view to print the error ```)
-			create view fail as select date(time),round(100.0*sum(case log.status
-			when '200 OK'  then 0 else 1 end)/count(log.status),3) as error
-			from log group
-			by date(time) order by error desc;
-
    
+    ```
+	 $ psql -d news -f views1.sql
+	```
+
    12. Run logAnalysis.py using:
+   
    ```
      $ python logAnalysis.py
    ```
   
-  Note: queries will take sometime to execute
-  
+  Note: generating queries will take several seconds to execute 
+
+# My sample Output:
 ![log_output.jpg](https://github.com/KothaLakshmiSruthi/log_analysis/blob/master/log_output.jpg)
